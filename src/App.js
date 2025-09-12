@@ -1,22 +1,15 @@
-import logo from './logo.svg';
+import mainImage from './images/main.png';
+import moodtrackImage from './images/moodtrack.png';
+import thirtyDayImage from './images/30-day.png';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <img src={mainImage} className="App-logo" alt="main" />
+        <img src={moodtrackImage} className="App-logo" alt="moodtrack" />
+        <img src={thirtyDayImage} className="App-logo" alt="30-day" />
       </header>
     </div>
   );
