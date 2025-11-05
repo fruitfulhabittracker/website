@@ -1,46 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FruitFul - Your Personal Habit & Wellness Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="brand-link">
+                    <img src="logo.png" alt="FruitFul" class="logo">
+                    <h2>FruitFul</h2>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#themes" class="nav-link">Themes</a>
+                <a href="#screenshots" class="nav-link">App</a>
+                <a href="#download" class="nav-link">Download</a>
+            </div>
+        </div>
+    </nav>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <img src="main.png" alt="main" style="width: 300px; height: auto; margin: 10px;">
-    <img src="moodtrack.png" alt="moodtrack" style="width: 300px; height: auto; margin: 10px;">
-    <img src="30-day.png" alt="30-day" style="width: 300px; height: auto; margin: 10px;">
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Your Personal Habit &<br><span class="highlight">Wellness Companion</span></h1>
+                <p class="hero-description">FruitFul is a beautifully designed habit tracking app that makes building positive routines effortless and enjoyable. Track your mood, celebrate progress, and create lasting change.</p>
+                <div class="hero-buttons">
+                    <a href="#download" class="btn-primary">Download Now</a>
+                    <a href="#features" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-phone">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <!-- Placeholder for app screenshot -->
+                        <div class="screen-content">
+                            <img src="main.png" alt="FruitFul App" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🎯 Powerful Features</h2>
+                <p class="section-subtitle">Everything you need to build lasting habits and track your wellness journey</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" data-animation="fade-up">
+                    <div class="feature-icon">📋</div>
+                    <h3>Smart Habit Tracking</h3>
+                    <p>Create habits with flexible frequencies - daily, weekly, or custom schedules that fit your life</p>
+                </div>
+                <div class="feature-card" data-animation="fade-up">
+                    <div class="feature-icon">📂</div>
+                    <h3>Routine Organization</h3>
+                    <p>Group related habits into collapsible routines for better organization and workflow</p>
+                </div>
+                <div class="feature-card" data-animation="fade-up">
+                    <div class="feature-icon">📊</div>
+                    <h3>Streak & Analytics</h3>
+                    <p>Visual progress tracking with streak counters and completion insights</p>
+                </div>
+                <div class="feature-card" data-animation="fade-up">
+                    <div class="feature-icon">😊</div>
+                    <h3>Mood Logging</h3>
+                    <p>Daily mood tracking with emojis, scales, tags, and journal entries</p>
+                </div>
+                <div class="feature-card" data-animation="fade-up">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Intelligent Reminders</h3>
+                    <p>Smart notifications that only alert you when needed - no spam, just helpful nudges</p>
+                </div>
+                <div class="feature-card" data-animation="fade-up">
+                    <div class="feature-icon">✋</div>
+                    <h3>Drag & Drop Ordering</h3>
+                    <p>Easily reorder habits and routines to match your priorities with intuitive gestures</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+    <!-- Themes Section -->
+    <section class="themes" id="themes">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🎨 Beautiful Themes</h2>
+                <p class="section-subtitle">Choose from 5 carefully crafted themes to match your style</p>
+            </div>
+            <div class="themes-grid">
+                <div class="theme-card" data-animation="fade-up" data-theme="light">
+                    <div class="theme-preview light-theme"></div>
+                    <h3>Light</h3>
+                    <p>Clean and minimal</p>
+                </div>
+                <div class="theme-card" data-animation="fade-up" data-theme="dark">
+                    <div class="theme-preview dark-theme"></div>
+                    <h3>Dark</h3>
+                    <p>Easy on the eyes</p>
+                </div>
+                <div class="theme-card" data-animation="fade-up" data-theme="fruitful">
+                    <div class="theme-preview fruitful-theme active"></div>
+                    <h3>Fruitful</h3>
+                    <p>Warm oranges and yellows</p>
+                </div>
+                <div class="theme-card" data-animation="fade-up" data-theme="zen">
+                    <div class="theme-preview zen-theme"></div>
+                    <h3>Zen</h3>
+                    <p>Calming earth tones</p>
+                </div>
+                <div class="theme-card" data-animation="fade-up" data-theme="that_girl">
+                    <div class="theme-preview girl-theme"></div>
+                    <h3>That Girl</h3>
+                    <p>Soft pastels</p>
+                </div>
+                <div class="theme-card coming-soon" data-animation="fade-up" data-theme="fruitful">
+                    <div class="theme-preview more-coming"></div>
+                    <h3>More to Come</h3>
+                    <p>New themes in development</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Experience Section -->
+    <section class="user-experience" id="screenshots">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">📱 Seamless Experience</h2>
+                <p class="section-subtitle">Designed for simplicity, built for results</p>
+            </div>
+            
+            <div class="ux-showcase">
+                <!-- Central Phone Display -->
+                <div class="central-phone" data-animation="fade-up">
+                    <div class="phone-mockup-ux">
+                        <div class="phone-screen-ux">
+                            <div class="screen-content-ux">
+                                <img src="moodtrack.png" alt="FruitFul Interface" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Feature Cards Around Phone -->
+                <div class="ux-features">
+                    <div class="ux-feature-card top-left" data-animation="fade-up">
+                        <div class="ux-icon">👆</div>
+                        <h4>Swipe Gestures</h4>
+                        <p>Complete habits with a simple swipe</p>
+                    </div>
+                    
+                    <div class="ux-feature-card top-right" data-animation="fade-up">
+                        <div class="ux-icon">📊</div>
+                        <h4>Visual Progress</h4>
+                        <p>Track streaks with heatmap calendar</p>
+                    </div>
+                    
+                    <div class="ux-feature-card bottom-left" data-animation="fade-up">
+                        <div class="ux-icon">📲</div>
+                        <h4>Home Screen Widgets</h4>
+                        <p>Mood logging, habit tracking & routine widgets available</p>
+                    </div>
+                    
+                    <div class="ux-feature-card bottom-right" data-animation="fade-up">
+                        <div class="ux-icon">🎯</div>
+                        <h4>Smart Reminders</h4>
+                        <p>Only when you need them</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Row -->
+            <div class="ux-stats" data-animation="fade-up">
+                <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Beautiful Themes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Custom Habits</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">📊</div>
+                    <div class="stat-label">Analytics & Insights</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Spam Notifications</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download" id="download">
+        <div class="container">
+            <div class="download-content">
+                <div class="download-text">
+                    <h2>🚀 Start Your Journey to a More Fruitful Life</h2>
+                    <p>Unlike other habit trackers, FruitFul focuses on being helpful without being overwhelming. Our smart notification system respects your time, beautiful themes make tracking enjoyable, and routine-based organization helps you build comprehensive lifestyle changes.</p>
+                    <div class="download-features">
+                        <div class="download-feature">✅ Perfect for morning & evening routines</div>
+                        <div class="download-feature">✅ Fitness and wellness goals</div>
+                        <div class="download-feature">✅ Mindfulness & self-care practices</div>
+                    </div>
+                    <a href="#" class="app-store-button" id="appStoreButton">
+                        <img src="Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg" alt="Download on the App Store" style="height: 60px;">
+                    </a>
+                </div>
+                <div class="download-visual">
+                    <div class="floating-phone">
+                        <div class="phone-mockup-large">
+                            <div class="phone-screen-large">
+                                <div class="screen-content-large">
+                                    <img src="30-day.png" alt="Fruitful App" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-brand-combo">
+                        <img src="logo.png" alt="FruitFul" class="footer-logo">
+                        <h3>FruitFul</h3>
+                    </div>
+                    <p>Building better habits, one day at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                    <a href="terms.html" class="footer-link">Terms of Service</a>
+                    <a href="support.html" class="footer-link">Support</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FruitFul. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
 </html>
