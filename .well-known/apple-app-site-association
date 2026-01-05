@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "BXG7C8D9VF.com.Nirviks.FruitFulHabitTracker",
+        "paths": [
+          "/verify-email",
+          "/*"
+        ]
+      }
+    ]
+  }
+}

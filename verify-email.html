@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification - FruitFul</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFE0B2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #3E3E3E;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .status.loading {
+            background: #FFE0B2;
+            color: #FF9800;
+        }
+
+        .status.success {
+            background: #C8E6C9;
+            color: #2E7D32;
+        }
+
+        .status.error {
+            background: #FFCDD2;
+            color: #C62828;
+        }
+
+        .spinner {
+            border: 3px solid #FFE0B2;
+            border-top: 3px solid #FF9800;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .button {
+            display: inline-block;
+            background: #FFB74D;
+            color: white;
+            padding: 14px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 183, 77, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🍊</div>
+        <h1 id="title">Verifying Your Email...</h1>
+        <div class="spinner" id="spinner"></div>
+        <p id="message">Please wait while we verify your email address.</p>
+        <div class="status loading" id="status">Processing</div>
+        <a href="#" id="appLink" class="button" style="display: none;">Open FruitFul App</a>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, applyActionCode } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyACZ10Gy4yLEgB9oOjPzLIx3sSEFVeDSVI",
+            authDomain: "fruitfulhabittracker.firebaseapp.com",
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Get the action code from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const mode = urlParams.get('mode');
+        const oobCode = urlParams.get('oobCode');
+
+        const titleEl = document.getElementById('title');
+        const messageEl = document.getElementById('message');
+        const statusEl = document.getElementById('status');
+        const spinnerEl = document.getElementById('spinner');
+        const appLinkEl = document.getElementById('appLink');
+
+        async function handleVerification() {
+            if (mode === 'verifyEmail' && oobCode) {
+                try {
+                    // Apply the verification code
+                    await applyActionCode(auth, oobCode);
+
+                    // Success!
+                    spinnerEl.style.display = 'none';
+                    titleEl.textContent = 'Email Verified!';
+                    messageEl.textContent = 'Your email has been successfully verified. You can now log in to FruitFul with your account.';
+                    statusEl.textContent = 'Success';
+                    statusEl.className = 'status success';
+
+                    // Show app link
+                    appLinkEl.href = 'fruitful://verify-email?verified=true';
+                    appLinkEl.style.display = 'inline-block';
+
+                    // Auto-redirect after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'fruitful://verify-email?verified=true';
+                    }, 2000);
+
+                } catch (error) {
+                    // Error occurred
+                    spinnerEl.style.display = 'none';
+                    titleEl.textContent = 'Verification Failed';
+
+                    if (error.code === 'auth/expired-action-code') {
+                        messageEl.textContent = 'This verification link has expired. Please request a new verification email.';
+                    } else if (error.code === 'auth/invalid-action-code') {
+                        messageEl.textContent = 'This verification link is invalid or has already been used.';
+                    } else {
+                        messageEl.textContent = 'An error occurred during verification. Please try again.';
+                    }
+
+                    statusEl.textContent = 'Error';
+                    statusEl.className = 'status error';
+
+                    // Still show app link to go back
+                    appLinkEl.textContent = 'Back to App';
+                    appLinkEl.href = 'fruitful://';
+                    appLinkEl.style.display = 'inline-block';
+                }
+            } else {
+                // Invalid link
+                spinnerEl.style.display = 'none';
+                titleEl.textContent = 'Invalid Link';
+                messageEl.textContent = 'This verification link is not valid. Please check your email and try again.';
+                statusEl.textContent = 'Error';
+                statusEl.className = 'status error';
+
+                appLinkEl.textContent = 'Back to App';
+                appLinkEl.href = 'fruitful://';
+                appLinkEl.style.display = 'inline-block';
+            }
+        }
+
+        // Run the verification
+        handleVerification();
+    </script>
+</body>
+</html>
