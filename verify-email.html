@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification - FruitFul</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FFF8E1;
+            --text-color: #3E3E3E;
+            --button-color: #FFB74D;
+            --primary-color: #FFC107;
+            --card-bg: #FFE0B2;
+            --border-color: #FFD54F;
+            --secondary-text: #8D6E63;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --error-color: #F44336;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, var(--bg-color) 0%, #FFF3C4 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255, 183, 77, 0.1) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 248, 225, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+            position: relative;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            width: fit-content;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-brand:hover .logo {
+            transform: scale(1.05);
+        }
+
+        .nav-brand h2 {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-brand:hover h2 {
+            color: var(--button-color);
+        }
+
+        /* Main container */
+        .container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .verification-card {
+            background: white;
+            border-radius: 30px;
+            padding: 50px 40px;
+            max-width: 550px;
+            width: 100%;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.1),
+                0 4px 15px rgba(255, 193, 7, 0.15);
+            text-align: center;
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.8s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-circle {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--button-color) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 50px;
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 10px 30px rgba(255, 193, 7, 0.4);
+            }
+        }
+
+        h1 {
+            color: var(--text-color);
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        p {
+            color: var(--secondary-text);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        /* Status badge */
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .status.loading {
+            background: var(--card-bg);
+            color: var(--warning-color);
+        }
+
+        .status.success {
+            background: #C8E6C9;
+            color: #2E7D32;
+        }
+
+        .status.error {
+            background: #FFCDD2;
+            color: #C62828;
+        }
+
+        /* Spinner */
+        .spinner {
+            border: 3px solid var(--card-bg);
+            border-top: 3px solid var(--warning-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 25px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Button */
+        .button {
+            display: inline-block;
+            background: var(--button-color);
+            color: white;
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 183, 77, 0.3);
+        }
+
+        .button:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 183, 77, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            z-index: 10;
+            position: relative;
+        }
+
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--button-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .verification-card {
+                padding: 40px 30px;
+            }
+
+            h1 {
+                font-size: 1.7rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .logo-circle {
+                width: 80px;
+                height: 80px;
+                font-size: 40px;
+            }
+
+            .navbar {
+                padding: 12px 20px;
+            }
+
+            .logo {
+                height: 35px;
+            }
+
+            .nav-brand h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .verification-card {
+                padding: 35px 25px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .button {
+                padding: 14px 32px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Success checkmark animation */
+        .checkmark {
+            display: none;
+        }
+
+        .checkmark.show {
+            display: block;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+        }
+
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #4CAF50;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .checkmark-check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <img src="logo.png" alt="FruitFul" class="logo">
+            <h2>FruitFul</h2>
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="verification-card">
+            <div class="logo-circle" id="logoCircle">🍊</div>
+
+            <svg class="checkmark" id="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark-check" fill="none" stroke="#4CAF50" stroke-width="3" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+
+            <h1 id="title">Verifying Your Email...</h1>
+            <div class="spinner" id="spinner"></div>
+            <p id="message">Please wait while we verify your email address.</p>
+            <div class="status loading" id="status">
+                <span>Processing</span>
+            </div>
+            <a href="#" id="appLink" class="button" style="display: none;">Open FruitFul App</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 FruitFul. All rights reserved. |
+            <a href="privacy.html">Privacy</a> |
+            <a href="terms.html">Terms</a> |
+            <a href="support.html">Support</a>
+        </p>
+    </footer>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, applyActionCode } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyACZ10Gy4yLEgB9oOjPzLIx3sSEFVeDSVI",
+            authDomain: "fruitfulhabittracker.firebaseapp.com",
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Get the action code from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const mode = urlParams.get('mode');
+        const oobCode = urlParams.get('oobCode');
+
+        const titleEl = document.getElementById('title');
+        const messageEl = document.getElementById('message');
+        const statusEl = document.getElementById('status');
+        const spinnerEl = document.getElementById('spinner');
+        const appLinkEl = document.getElementById('appLink');
+        const logoCircle = document.getElementById('logoCircle');
+        const checkmark = document.getElementById('checkmark');
+
+        async function handleVerification() {
+            if (mode === 'verifyEmail' && oobCode) {
+                try {
+                    // Apply the verification code
+                    await applyActionCode(auth, oobCode);
+
+                    // Success!
+                    spinnerEl.style.display = 'none';
+                    logoCircle.style.display = 'none';
+                    checkmark.classList.add('show');
+
+                    titleEl.textContent = 'Email Verified!';
+                    messageEl.textContent = 'Your email has been successfully verified. You can now enjoy all the features of FruitFul with your account.';
+                    statusEl.innerHTML = '<span>✓ Success</span>';
+                    statusEl.className = 'status success';
+
+                    // Show app link
+                    appLinkEl.textContent = 'Open FruitFul App';
+                    appLinkEl.href = 'fruitful://verify-email?verified=true';
+                    appLinkEl.style.display = 'inline-block';
+
+                    // Auto-redirect after 3 seconds
+                    setTimeout(() => {
+                        window.location.href = 'fruitful://verify-email?verified=true';
+                    }, 3000);
+
+                } catch (error) {
+                    // Error occurred
+                    spinnerEl.style.display = 'none';
+                    logoCircle.textContent = '⚠️';
+
+                    titleEl.textContent = 'Verification Failed';
+
+                    if (error.code === 'auth/expired-action-code') {
+                        messageEl.textContent = 'This verification link has expired. Please request a new verification email from the app.';
+                    } else if (error.code === 'auth/invalid-action-code') {
+                        messageEl.textContent = 'This verification link is invalid or has already been used. If you\'ve already verified, you can log in normally.';
+                    } else {
+                        messageEl.textContent = 'An error occurred during verification. Please try again or contact support if the problem persists.';
+                    }
+
+                    statusEl.innerHTML = '<span>✗ Error</span>';
+                    statusEl.className = 'status error';
+
+                    // Show app link to go back
+                    appLinkEl.textContent = 'Return to App';
+                    appLinkEl.href = 'fruitful://';
+                    appLinkEl.style.display = 'inline-block';
+                }
+            } else {
+                // Invalid link
+                spinnerEl.style.display = 'none';
+                logoCircle.textContent = '❌';
+
+                titleEl.textContent = 'Invalid Link';
+                messageEl.textContent = 'This verification link is not valid. Please check your email and try again, or request a new verification email from the app.';
+                statusEl.innerHTML = '<span>✗ Error</span>';
+                statusEl.className = 'status error';
+
+                appLinkEl.textContent = 'Return to App';
+                appLinkEl.href = 'fruitful://';
+                appLinkEl.style.display = 'inline-block';
+            }
+        }
+
+        // Run the verification
+        handleVerification();
+    </script>
+</body>
+</html>
